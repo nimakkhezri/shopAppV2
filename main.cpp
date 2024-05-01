@@ -52,6 +52,7 @@ int main (){
             case 5:
                 break;
             default:
+                break;
         }
     }while (choice != 0);
 }
@@ -62,7 +63,7 @@ void display_products(const std::vector<Product>& products) {
     } else {
         std::cout << "-------------------- **Products --------------------**" << std::endl;
         for (Product product : products) {
-            std::cout << "- " << product.get_name() << " (موجودی: " << product.get_stock() << ", قیمت: " << product.get_price() << " تومان)" << std::endl;
+            std::cout << "- " << product.get_name() << " (Stock: " << product.get_stock() << ", Price: " << product.get_price() << " Toman" << std::endl;
         }
     }
 }
