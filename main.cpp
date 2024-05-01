@@ -63,7 +63,7 @@ void display_products(const std::vector<Product>& products) {
     } else {
         std::cout << "-------------------- **Products --------------------**" << std::endl;
         for (Product product : products) {
-            std::cout << "- " << product.get_name() << " (Stock: " << product.get_stock() << ", Price: " << product.get_price() << " Toman" << std::endl;
+            std::cout << "- " << product.get_name() << " (Stock: " << product.get_stock() << ", Price: " << product.get_price() << " Toman)" << std::endl;
         }
     }
 }
@@ -194,7 +194,7 @@ Order create_new_order(std::vector <Product>& products){
     std::cout << "Phone number: ";
     std::cin >> phone_number;
     std::cout << "Address: ";
-    std::cin.ignore();
+    //std::cin.ignore();
     std::getline(std::cin, address);
 
   Customer customer(first_name, last_name, phone_number, address);
