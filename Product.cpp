@@ -24,3 +24,6 @@ void Product::set_price (int new_price) {
     }
 }
 
+void Product::add_product(std::string name, int price, int quantity){
+    
+}

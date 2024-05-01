@@ -18,6 +18,7 @@ public :
     void set_stock(int new_stock);
     int get_price();
     void set_price(int new_price);
+    void add_product(std::string name, int price, int quantity);
 };
 
 #endif
