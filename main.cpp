@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <time.h>
 #include "Product.h"
 #include "Order.h"
 #include "Customer.h"
@@ -20,7 +20,7 @@ int main (){
         std::cout << "---------------------- Aghche Shop ------------------------" << '\n';
         std::cout << "1. Add a product " << '\n';
         std::cout << "2. Products " << '\n';
-        std::cout << "3. Add a new orders" << '\n';
+        std::cout << "3. Add a new order" << '\n';
         std::cout << "4. Orders" << '\n';
         std::cout << "5. Turnover" << '\n';
         std::cout << "0. Exit" << '\n';
@@ -45,6 +45,7 @@ int main (){
                     edit_product(products);
                 break;
             case 3:
+                sales_history.add_order(create_new_order(products));
                 break;
             case 4:
                 break;
@@ -166,4 +167,38 @@ Order create_new_order(std::vector <Product>& products){
     }while(choice != 0);
 
     int total_price = 0;
+
+    for(int i = 0; i < order_products.size(); i++){
+        total_price += order_products[i].get_price() * order_numbers[i];
+    }
+
+    double discount_percent; 
+    std::cout << "Please enter the discount amount based on percentage (0 for No-Offer): ";
+    std::cin >> discount_percent;
+
+    // Current time 
+    time_t now = time(NULL);
+    tm* timeptr = localtime(&now);
+    char buffer[80];
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d", timeptr);
+    std::string current_date(buffer);
+
+    // Customer details
+    std::string first_name, last_name, address;
+    int phone_number;
+    std::cout << "Fist name: ";
+    std::cin >> first_name;
+    std::cout << "Last name: ";
+    std::cin >> last_name;
+    std::cout << "Phone number: ";
+    std::cin >> phone_number;
+    std::cout << "Address: ";
+    std::cin.ignore();
+    std::getline(std::cin, address);
+
+  Customer customer(first_name, last_name, phone_number, address);
+
+    Order order(order_products, order_numbers, discount_percent, total_price, customer, current_date);
+    return order;
+}
     
