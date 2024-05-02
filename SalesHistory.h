@@ -11,6 +11,7 @@ public :
     void add_order(Order order);
     int get_total_sales(std::string start_date, std::string end_date);
     void print_sales_report (std::string start_date, std::string end_date);
+    
 };
 
 #endif

@@ -7,20 +7,20 @@ public:
     std::string first_name;
     std::string last_name;
     int phone_number;
-    std::string address;
+    //std::string address;
 
     Customer () = default;
     
-    Customer(std::string first_name, std::string last_name, int phone_number, std::string address) {
+    Customer(std::string first_name, std::string last_name, int phone_number/*, std::string address*/) {
         this->first_name = first_name;
         this->last_name = last_name;
         this->phone_number = phone_number;
-        this->address = address;
+        //this->address = address;
     }
     
     std::string get_full_name();
     int get_phone_number();
-    std::string get_address();
+    //std::string get_address();
 };
 
 #endif

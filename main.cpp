@@ -41,11 +41,13 @@ int main (){
                 std::cout << "Your choise: ";
                 std::cin >> new_choice;
                 std::cout << '\n';
-                if (choice == 1)
+                if (new_choice == 1)
                     edit_product(products);
                 break;
             case 3:
                 sales_history.add_order(create_new_order(products));
+                for (Order this_order : sales_history.orders)
+                    std::cout << this_order.get_customer_info().get_full_name() << '\t' << this_order.get_total_price();
                 break;
             case 4:
                 break;
@@ -185,7 +187,7 @@ Order create_new_order(std::vector <Product>& products){
     std::string current_date(buffer);
 
     // Customer details
-    std::string first_name, last_name, address;
+    std::string first_name, last_name;
     int phone_number;
     std::cout << "Fist name: ";
     std::cin >> first_name;
@@ -193,11 +195,11 @@ Order create_new_order(std::vector <Product>& products){
     std::cin >> last_name;
     std::cout << "Phone number: ";
     std::cin >> phone_number;
-    std::cout << "Address: ";
+    //std::cout << "Address: ";
     //std::cin.ignore();
-    std::getline(std::cin, address);
+    //std::getline(std::cin, address);
 
-  Customer customer(first_name, last_name, phone_number, address);
+  Customer customer(first_name, last_name, phone_number/*, address*/);
 
     Order order(order_products, order_numbers, discount_percent, total_price, customer, current_date);
     return order;

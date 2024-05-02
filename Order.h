@@ -11,6 +11,7 @@ public:
     std::vector<int> numbers;
     double discount;
     double total_price;
+    double offer_price;
     Customer customer;
     std::string date;
 
@@ -21,6 +22,7 @@ public:
         this->customer = customer;
         this->date = date;
         this->numbers = numbers;
+        this->apply_discount(discount);
     }
 
     void add_product (Product product, int quantity);
