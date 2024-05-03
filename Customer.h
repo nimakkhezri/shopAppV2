@@ -6,12 +6,12 @@ class Customer {
 public:
     std::string first_name;
     std::string last_name;
-    int phone_number;
+    std::string phone_number;
     //std::string address;
 
     Customer () = default;
     
-    Customer(std::string first_name, std::string last_name, int phone_number/*, std::string address*/) {
+    Customer(std::string first_name, std::string last_name, std::string phone_number/*, std::string address*/) {
         this->first_name = first_name;
         this->last_name = last_name;
         this->phone_number = phone_number;
@@ -19,7 +19,7 @@ public:
     }
     
     std::string get_full_name();
-    int get_phone_number();
+    std::string get_phone_number();
     //std::string get_address();
 };
 

@@ -8,6 +8,6 @@ std::string Customer::get_full_name() {
 //    return address;
 //}
 
-int Customer::get_phone_number() {
+std::string Customer::get_phone_number() {
     return phone_number;
 }

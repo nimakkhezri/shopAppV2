@@ -50,6 +50,7 @@ int main (){
                     std::cout << this_order.get_customer_info().get_full_name() << '\t' << this_order.get_total_price();
                 break;
             case 4:
+                sales_history.display_orders();
                 break;
             case 5:
                 break;
@@ -187,8 +188,7 @@ Order create_new_order(std::vector <Product>& products){
     std::string current_date(buffer);
 
     // Customer details
-    std::string first_name, last_name;
-    int phone_number;
+    std::string first_name, last_name, phone_number;
     std::cout << "Fist name: ";
     std::cin >> first_name;
     std::cout << "Last name: ";
@@ -204,4 +204,3 @@ Order create_new_order(std::vector <Product>& products){
     Order order(order_products, order_numbers, discount_percent, total_price, customer, current_date);
     return order;
 }
-    

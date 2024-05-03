@@ -30,6 +30,8 @@ public:
     void apply_discount(double discount_percent);
     Customer get_customer_info();
     std::string get_date();
+    double get_discount();
+    void edit_order_product_quantity();
 
 };
 
