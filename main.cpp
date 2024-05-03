@@ -7,6 +7,7 @@
 #include "SalesHistory.h"
 
 void display_products(const std::vector<Product>& products);
+void display_cart(const std::vector<Product>& products);
 void edit_product(std::vector<Product>& products);
 void add_product(std::vector<Product>& products);
 Order create_new_order(std::vector<Product>& products);
@@ -107,7 +108,7 @@ void edit_product(std::vector<Product>& products) {
             std::cin >> new_stock;
         } while (new_stock < 0);
         product.set_stock(new_stock);
-        std::cout /*<< "موجودی محصول " */<< product.get_name() << "'s stock changed to" << new_stock << ", Succesfully !!" << std::endl;
+        std::cout << product.get_name() << "'s stock changed to" << new_stock << ", Succesfully !!" << std::endl;
         break;
         }
         case 2: {
@@ -117,7 +118,7 @@ void edit_product(std::vector<Product>& products) {
             std::cin >> new_price;
         } while (new_price < 0);
         product.set_price(new_price);
-        std::cout /*<< "قیمت محصول " */<< product.get_name() << "'s price changed to" << new_price << " , Succesfully !!" << std::endl;
+        std::cout << product.get_name() << "'s price changed to" << new_price << " , Succesfully !!" << std::endl;
         break;
         }
         case 3:
@@ -129,7 +130,8 @@ void add_product(std::vector<Product> &products){
     std::string product_name;
     int product_price, product_inventory;
     std::cout << "Please enter the name of your product: ";
-    std::cin >> product_name;
+    std::cin.ignore();
+    std::getline(std::cin, product_name);
     std::cout << "Please enter the price of your product: ";
     std::cin >> product_price;
     std::cout << "Please enter your product inventory: ";
@@ -143,9 +145,10 @@ Order create_new_order(std::vector <Product>& products){
 
     int choice;
     do{
+        display_cart(order_products);
         display_products(products);
         
-        std::cout << "Please enter the product number you want(0 for finish choosing) : ";
+        std::cout << "Please enter the product number you want(0 for finish choosing and -1 for editing cart) : ";
         std::cin >> choice;
 
         if(choice > 0 && choice <= products.size()){
@@ -203,4 +206,17 @@ Order create_new_order(std::vector <Product>& products){
 
     Order order(order_products, discount_percent, total_price, customer, current_date);
     return order;
+}
+
+void display_cart(const std::vector <Product>& products){
+    std::cout << "-------------------- ** CART ** --------------------" << '\n';
+    if(products.empty())
+        std::cout << "Your cart is empty!! " << '\n';
+    else{
+        int i = 1;
+        for(Product product : products){
+            std::cout << i << ". " << product.get_name() << '\t' << "Quantitiy: " << product.get_stock() << '\n';
+        }
+    }
+    std::cout << "-------------------- ** CART ** --------------------" << '\n' << '\n';
 }
