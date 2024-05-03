@@ -8,20 +8,18 @@
 class Order {
 public:
     std::vector<Product> products;
-    std::vector<int> numbers;
     double discount;
     double total_price;
     double offer_price;
     Customer customer;
     std::string date;
 
-    Order(std::vector<Product> products, std::vector<int> numbers, double discount, double total_price, const Customer customer, std::string date){
+    Order(std::vector<Product> products, double discount, double total_price, const Customer customer, std::string date){
         this->products = products;
         this->discount = discount;
         this->total_price = total_price;
         this->customer = customer;
         this->date = date;
-        this->numbers = numbers;
         this->apply_discount(discount);
     }
 

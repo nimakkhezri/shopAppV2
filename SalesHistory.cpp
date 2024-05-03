@@ -72,7 +72,7 @@ void SalesHistory::veiw_order_detials(int choice){
     std::cout << "          ---------- ** Order Products ** ----------          " << '\n';
     int i = 1;
     for(Product product : order.products){
-        std::cout << i <<". " << product.get_name() << '\t' << "Numbers: " << order.numbers[i - 1] << '\t' << "base Price: " << product.get_price() << '\t' << "Total Price: " << product.get_price() * order.numbers[i - 1] << " Toman" << '\n';
+        std::cout << i <<". " << product.get_name() << '\t' << "Numbers: " << product.get_stock() << '\t' << "base Price: " << product.get_price() << '\t' << "Total Price: " << product.get_price() * product.get_stock() << " Toman" << '\n';
     }
     std::cout << '\n';
     std::cout << "          ---------- ** Total Price ** ----------          " << '\n';

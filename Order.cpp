@@ -34,11 +34,11 @@ void Order::edit_order_product_quantity(){
     int choice;
     std::cout << "Enter the number of the product you want to edit: ";
     std::cin >> choice;
-    int& number = this->numbers[choice - 1];
+    Product& product = this->products[choice - 1];
     std::cout << "Enter a new quantity: ";
     int new_quantity;
     std::cin >> new_quantity;
-    number = new_quantity;
+    product.set_stock(new_quantity);
 }
 
 //euoro vital

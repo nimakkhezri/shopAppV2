@@ -140,7 +140,6 @@ void add_product(std::vector<Product> &products){
 
 Order create_new_order(std::vector <Product>& products){
     std::vector<Product> order_products;
-    std::vector<int> order_numbers;
 
     int choice;
     do{
@@ -162,8 +161,9 @@ Order create_new_order(std::vector <Product>& products){
                 }
             }while(quantity < 0 || quantity > product.get_stock());
             
-            order_numbers.push_back(quantity);
-            order_products.push_back(product);
+            Product new_order_product = product;
+            new_order_product.set_stock(quantity);
+            order_products.push_back(new_order_product);
             product.set_stock(product.get_stock() - quantity);
 
             std::cout << quantity << " number(s) of " << product.get_name() << " have been added to the shopping cart! \n";
@@ -172,8 +172,8 @@ Order create_new_order(std::vector <Product>& products){
 
     int total_price = 0;
 
-    for(int i = 0; i < order_products.size(); i++){
-        total_price += order_products[i].get_price() * order_numbers[i];
+    for(Product product : order_products){
+        total_price += product.get_price() * product.get_stock();
     }
 
     double discount_percent; 
@@ -201,6 +201,6 @@ Order create_new_order(std::vector <Product>& products){
 
   Customer customer(first_name, last_name, phone_number/*, address*/);
 
-    Order order(order_products, order_numbers, discount_percent, total_price, customer, current_date);
+    Order order(order_products, discount_percent, total_price, customer, current_date);
     return order;
 }
