@@ -8,8 +8,10 @@
 
 void display_products(const std::vector<Product>& products);
 void display_cart(const std::vector<Product>& products);
+void edit_cart(std::vector<Product>& order_products, std::vector<Product>& products);
 void edit_product(std::vector<Product>& products);
 void add_product(std::vector<Product>& products);
+bool has_product(std::string productName, const std::vector<Product>& products);
 Order create_new_order(std::vector<Product>& products);
 
 int main (){
@@ -65,7 +67,7 @@ void display_products(const std::vector<Product>& products) {
     if (products.empty()) {
         std::cout << "There is no product here !!" << std::endl;
     } else {
-        std::cout << "-------------------- **Products --------------------**" << std::endl;
+        std::cout << "-------------------- **Products** --------------------" << std::endl;
         for (Product product : products) {
             std::cout << "- " << product.get_name() << " (Stock: " << product.get_stock() << ", Price: " << product.get_price() << " Toman)" << std::endl;
         }
@@ -151,6 +153,9 @@ Order create_new_order(std::vector <Product>& products){
         std::cout << "Please enter the product number you want(0 for finish choosing and -1 for editing cart) : ";
         std::cin >> choice;
 
+        if(choice == -1)
+            edit_cart(order_products, products);
+
         if(choice > 0 && choice <= products.size()){
             Product& product = products[choice - 1];
 
@@ -164,10 +169,21 @@ Order create_new_order(std::vector <Product>& products){
                 }
             }while(quantity < 0 || quantity > product.get_stock());
             
-            Product new_order_product = product;
-            new_order_product.set_stock(quantity);
-            order_products.push_back(new_order_product);
-            product.set_stock(product.get_stock() - quantity);
+            if(has_product(product.get_name(), order_products)){
+                for(Product& new_order_product : order_products){
+                    if(product.get_name() == new_order_product.get_name()){
+                        new_order_product.set_stock(new_order_product.get_stock() + quantity);
+                        product.set_stock(product.get_stock() - quantity);
+                    }
+                }
+
+
+            }else{
+                Product new_order_product = product;
+                new_order_product.set_stock(quantity);
+                order_products.push_back(new_order_product);
+                product.set_stock(product.get_stock() - quantity);
+            }
 
             std::cout << quantity << " number(s) of " << product.get_name() << " have been added to the shopping cart! \n";
         }
@@ -219,4 +235,52 @@ void display_cart(const std::vector <Product>& products){
         }
     }
     std::cout << "-------------------- ** CART ** --------------------" << '\n' << '\n';
+}
+
+void edit_cart(std::vector <Product>& order_products, std::vector <Product>& products){
+    std::cout << "-------------------- **EDIT CART ** --------------------" << '\n' << '\n';
+    int i = 1;
+    for (Product product : order_products){
+        std::cout << i << ". " << product.get_name() << '\t' << "Quantity: " << product.get_stock() << '\n';
+    }
+    std::cout << '\n';
+    std::cout << "Please enter a product number to edit (0 for returning back): ";
+    int choice; 
+    std::cin >> choice;
+    int product_total_stock;
+
+    if (choice > 0 && choice <= order_products.size()){
+        Product& order_product = order_products[choice - 1];
+
+        for(Product& product : products){
+            if(order_product.get_name() == product.get_name())
+                product_total_stock = product.get_stock() + order_product.get_stock();
+        }
+        int new_quantity;
+
+        do{
+            std::cout << "You have chosen " << order_product.get_name() << "\tQuantity: " << order_product.get_stock() << '\n';
+            std::cout << "Please enter a new quantity: ";
+            std::cin >> new_quantity;
+            if(new_quantity < 0 || new_quantity > product_total_stock)
+                std::cout << "Please enter a valid value! " << '\n';
+        }while(new_quantity < 0 || new_quantity > product_total_stock);
+
+        order_product.set_stock(new_quantity);
+
+        for(Product& product : products){
+            if(order_product.get_name() == product.get_name())
+                product.set_stock(product_total_stock - new_quantity);
+        }
+    std::cout << "Done!" << '\n';
+    }
+}
+
+bool has_product(std::string productName, const std::vector<Product>& products){
+    for(Product product : products){
+        if (product.get_name() == productName){
+            return true;
+        }
+    }
+    return false;
 }

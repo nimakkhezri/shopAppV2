@@ -21,33 +21,33 @@ void SalesHistory::display_orders(){
                 // View order details
                 veiw_order_detials(choice);
 
-                int orderEditChoice;
-                do{
-                    std::cout << "To edit invoice information, choose the following options: " << '\n';
-                    //std::cout << "1. Edit the number of a product." << '\n';
-                    std::cout << "1. Edit discount." << '\n';
-                    std::cout << "0. returning back." << '\n';
-                    std::cout << "Your choice: ";
-                    std::cin >> orderEditChoice;
-                    switch (orderEditChoice)
-                    {
-                    //case 1:
-                    //    order.edit_order_product_quantity();
-                    //    break;
-                    case 1:
-                        std::cout << "Enter a new discount percent: ";
-                        int newDiscount;
-                        std::cin >> newDiscount;
-                        order.apply_discount(newDiscount);
-                        break;
-                    case 0: 
-                        std::cout << "Done! your changes applied! " << '\n';
-                        break;
-                    default:
-                        std::cout << "You enterd an unvalid number!! Please try again! ";
-                        break;
-                    }
-                }while (orderEditChoice != 0);
+                //int orderEditChoice;
+                //do{
+                //    std::cout << "To edit invoice information, choose the following options: " << '\n';
+                //    //std::cout << "1. Edit the number of a product." << '\n';
+                //    std::cout << "1. Edit discount." << '\n';
+                //    std::cout << "0. returning back." << '\n';
+                //    std::cout << "Your choice: ";
+                //    std::cin >> orderEditChoice;
+                //    switch (orderEditChoice)
+                //    {
+                //    //case 1:
+                //    //    order.edit_order_product_quantity();
+                //    //    break;
+                //    case 1:
+                //        std::cout << "Enter a new discount percent: ";
+                //        int newDiscount;
+                //        std::cin >> newDiscount;
+                //        order.apply_discount(newDiscount);
+                //        break;
+                //    case 0: 
+                //        std::cout << "Done! your changes applied! " << '\n';
+                //        break;
+                //    default:
+                //        std::cout << "You enterd an unvalid number!! Please try again! ";
+                //        break;
+                //    }
+                //}while (orderEditChoice != 0);
                 system("pause");
                 system("CLS");
             }
