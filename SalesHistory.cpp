@@ -1,4 +1,5 @@
 #include "SalesHistory.h"
+#include <iomanip>
 
 void SalesHistory::add_order(Order order) {
     orders.push_back(order);
@@ -56,7 +57,7 @@ void SalesHistory::display_orders(){
 }
 
 void SalesHistory::display_orders_list(){
-    std::cout << "-------------------- ** Orders ** --------------------" << '\n';
+    std::cout << std::left << "--------------------" << std::setw(10) << std::internal << "** Orders **" << "--------------------" << '\n';
     int i = 1;
         for (Order order : orders){
             std::cout << i << ". Date: " << order.get_date() << ", Customer name: " << order.get_customer_info().get_full_name() << ", Total price: " << order.get_total_price() << "Toman. \n";

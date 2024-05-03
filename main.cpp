@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <time.h>
+#include <iomanip>
 #include "Product.h"
 #include "Order.h"
 #include "Customer.h"
@@ -49,8 +50,6 @@ int main (){
                 break;
             case 3:
                 sales_history.add_order(create_new_order(products));
-                for (Order this_order : sales_history.orders)
-                    std::cout << this_order.get_customer_info().get_full_name() << '\t' << this_order.get_total_price();
                 break;
             case 4:
                 sales_history.display_orders();
@@ -68,8 +67,9 @@ void display_products(const std::vector<Product>& products) {
         std::cout << "There is no product here !!" << std::endl;
     } else {
         std::cout << "-------------------- **Products** --------------------" << std::endl;
+        int i = 1;
         for (Product product : products) {
-            std::cout << "- " << product.get_name() << " (Stock: " << product.get_stock() << ", Price: " << product.get_price() << " Toman)" << std::endl;
+            std::cout << i << ". " << std::setw(20) << std::left << product.get_name() << " (Stock: " << std::setw(5) << product.get_stock() << ", Price: " << std::setw(10) << product.get_price() << "Toman)" << std::endl;
         }
     }
 }
@@ -238,17 +238,18 @@ void display_cart(const std::vector <Product>& products){
     else{
         int i = 1;
         for(Product product : products){
-            std::cout << i << ". " << product.get_name() << '\t' << "Quantitiy: " << product.get_stock() << '\n';
+            std::cout << i << ". " << std::left << std::setw(120) << product.get_name() << " Quantitiy: " << std::setw(5) << product.get_stock() << '\n';
+            i++;
         }
     }
     std::cout << "-------------------- ** CART ** --------------------" << '\n' << '\n';
 }
 
 void edit_cart(std::vector <Product>& order_products, std::vector <Product>& products){
-    std::cout << "-------------------- **EDIT CART ** --------------------" << '\n' << '\n';
+    std::cout << "-------------------- ** EDIT CART ** --------------------" << '\n' << '\n';
     int i = 1;
     for (Product product : order_products){
-        std::cout << i << ". " << product.get_name() << '\t' << "Quantity: " << product.get_stock() << '\n';
+        std::cout << i << ". " << std::left << std::setw(20) << product.get_name() << " Quantity: " << std::setw(5) << product.get_stock() << '\n';
     }
     std::cout << '\n';
     std::cout << "Please enter a product number to edit (0 for returning back): ";
@@ -266,7 +267,7 @@ void edit_cart(std::vector <Product>& order_products, std::vector <Product>& pro
         int new_quantity;
 
         do{
-            std::cout << "You have chosen " << order_product.get_name() << "\tQuantity: " << order_product.get_stock() << '\n';
+            std::cout << "You have chosen " << std::left << std::setw(20) << order_product.get_name() << " Quantity: " << std::setw(5) << order_product.get_stock() << '\n';
             std::cout << "Please enter a new quantity: ";
             std::cin >> new_quantity;
             if(new_quantity < 0 || new_quantity > product_total_stock)
