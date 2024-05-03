@@ -159,33 +159,37 @@ Order create_new_order(std::vector <Product>& products){
         if(choice > 0 && choice <= products.size()){
             Product& product = products[choice - 1];
 
-            int quantity;
-            do{
-                std::cout << "You have chose " << product.get_name() << ".... stock = " << product.get_stock() << '\n';
-                std::cout << "Enter numbers of it : ";
-                std::cin >> quantity;
-                if(quantity > product.get_stock() || quantity < 0){
-                    std::cout << "Sorry! Please enter a valid number. \n";
-                }
-            }while(quantity < 0 || quantity > product.get_stock());
-            
-            if(has_product(product.get_name(), order_products)){
-                for(Product& new_order_product : order_products){
-                    if(product.get_name() == new_order_product.get_name()){
-                        new_order_product.set_stock(new_order_product.get_stock() + quantity);
-                        product.set_stock(product.get_stock() - quantity);
-                    }
-                }
+            if(product.get_stock() > 0) {
 
+                int quantity;
+                do{
+                    std::cout << "You have chose " << product.get_name() << ".... stock = " << product.get_stock() << '\n';
+                    std::cout << "Enter numbers of it : ";
+                    std::cin >> quantity;
+                    if(quantity > product.get_stock() || quantity < 0){
+                        std::cout << "Sorry! Please enter a valid number. \n";
+                    }
+                }while(quantity < 0 || quantity > product.get_stock());
+
+                if(has_product(product.get_name(), order_products)){
+                    for(Product& new_order_product : order_products){
+                        if(product.get_name() == new_order_product.get_name()){
+                            new_order_product.set_stock(new_order_product.get_stock() + quantity);
+                            product.set_stock(product.get_stock() - quantity);
+                        }
+                    }
+                }else{
+                    Product new_order_product = product;
+                    new_order_product.set_stock(quantity);
+                    order_products.push_back(new_order_product);
+                    product.set_stock(product.get_stock() - quantity);
+                }
+                
+                std::cout << quantity << " number(s) of " << product.get_name() << " have been added to the shopping cart! \n";
 
             }else{
-                Product new_order_product = product;
-                new_order_product.set_stock(quantity);
-                order_products.push_back(new_order_product);
-                product.set_stock(product.get_stock() - quantity);
+                std::cout << "There is not enough stock to place an order ... Please try again!" << '\n';
             }
-
-            std::cout << quantity << " number(s) of " << product.get_name() << " have been added to the shopping cart! \n";
         }
     }while(choice != 0);
 
