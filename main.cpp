@@ -191,7 +191,10 @@ Order create_new_order(std::vector <Product>& products){
                 std::cout << "There is not enough stock to place an order ... Please try again!" << '\n';
             }
         }
-    }while(choice != 0);
+        if(choice == 0 && order_products.empty()){
+            std::cout << "Your shopping cart is empty please add some products to you cart and then try again!" << '\n';
+        }
+    }while(choice != 0 || order_products.empty());
 
     int total_price = 0;
 
