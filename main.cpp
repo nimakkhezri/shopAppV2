@@ -2,10 +2,14 @@
 #include <vector>
 #include <time.h>
 #include <iomanip>
+#include <fstream>
 #include "Product.h"
 #include "Order.h"
 #include "Customer.h"
 #include "SalesHistory.h"
+
+std::vector<Product> readProductsFromFile(const std::string& filename);
+void saveProductsToFile(const std::string& filename, const std::vector<Product>& products);
 
 void display_products(const std::vector<Product>& products);
 void display_cart(const std::vector<Product>& products);
@@ -16,7 +20,7 @@ bool has_product(std::string productName, const std::vector<Product>& products);
 Order create_new_order(std::vector<Product>& products);
 
 int main (){
-    std::vector <Product> products;
+    std::vector <Product> products = readProductsFromFile("Data/products.dat");
     SalesHistory sales_history;
 
     int choice;
@@ -63,6 +67,8 @@ int main (){
                 break;
         }
     }while (choice != 0);
+
+    saveProductsToFile("Data/products.dat", products);
 }
 
 void display_products(const std::vector<Product>& products) {
@@ -310,4 +316,44 @@ bool has_product(std::string productName, const std::vector<Product>& products){
         }
     }
     return false;
+}
+
+std::vector<Product> readProductsFromFile(const std::string& filename){
+    std::vector<Product> products;
+
+    std::ifstream file(filename);
+    if(file.is_open()){
+        std::string line;
+        while(std::getline(file, line)){
+            std::stringstream ss(line);
+
+            std::string productName, productStock, productPrice;
+
+            std::getline(ss, productName, ',');
+            std::getline(ss, productStock, ',');
+            std::getline(ss, productPrice, ',');
+
+            products.push_back(Product(productName, std::stoi(productStock), std::stoi(productPrice)));
+        }
+        file.close();
+    }else{
+        std::cout << "\n\n\tError: Unable to open file";
+    }
+
+    return products;
+
+}
+
+void saveProductsToFile(const std::string& filename, const std::vector<Product>& products) { 
+    std::ofstream file(filename, std::ios::out | std::ios::trunc); 
+
+  if (file.is_open()) { 
+    for (const Product& product : products) { 
+      file << product.name << "," << product.price << "," << product.stock << std::endl; 
+    } 
+ 
+    file.close(); 
+  } else { 
+    std::cout << "Error: Unable to open file " << filename << std::endl; 
+  } 
 }
