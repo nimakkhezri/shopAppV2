@@ -274,10 +274,13 @@ void display_cart(const std::vector <Product>& products){
         std::cout << "\n\tYour cart is empty!! " << '\n';
     else{
         int i = 1;
+        int cart_total_price = 0;
         for(Product product : products){
-            std::cout << "\n\t" << i << ". " << std::left << std::setw(20) << product.get_name() << " Quantitiy: " << std::setw(5) << product.get_stock() << '\n';
+            std::cout << "\n\t" << i << ". " << std::left << std::setw(20) << product.get_name() << " Quantitiy: " << std::setw(5) << product.get_stock() << "price: "<< std::setw(10) << product.get_stock() * product.get_price() << '\n';
             i++;
+            cart_total_price += product.get_price() * product.get_stock();
         }
+        std::cout << "\n\n\tTotal Price: \t" << cart_total_price << '\n';
     }
     std::cout << "\n\n\t-----------------------------------------------------------------" << '\n' << '\n';
 }
