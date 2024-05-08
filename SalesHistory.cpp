@@ -13,6 +13,7 @@ void SalesHistory::display_orders(){
     }else{
         int choice;
         do{
+            system("CLS");
             // Showing orders
             display_orders_list();
 
@@ -22,6 +23,7 @@ void SalesHistory::display_orders(){
                 Order& order = orders[choice - 1];
 
                 // View order details
+                system("CLS");
                 veiw_order_detials(choice);
 
                 //int orderEditChoice;

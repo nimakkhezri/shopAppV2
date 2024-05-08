@@ -475,6 +475,7 @@ void saveOrdersToFiles(const std::vector<Order>& orders){
 void showSalesHistory(SalesHistory sale_history){
     int choice;
     do {
+        system("CLS");
         std::cout << "\n\n\n\t                           ** SALES HISTORY TAB **" << '\n';
         std::cout << "\n\n\t*Select your date range" << std::endl;
         std::cout << "\n\t1. Last week" << std::endl;
