@@ -31,6 +31,9 @@ public:
     double get_discount();
     //void edit_order_product_quantity();
 
+    std::vector<Product> get_products();
+    void set_products(const std::vector<Product>& products);
+    void set_customer(const Customer& customer);
 };
 
 #endif

@@ -42,3 +42,16 @@ double Order::get_discount(){
 //}
 
 //euoro vital
+
+std::vector<Product> Order::get_products(){
+    return products;
+}
+
+
+void Order::set_customer(const Customer& customer){
+    this->customer = customer;
+}
+
+void Order::set_products(const std::vector<Product>& productslist) {
+    products = productslist;
+}

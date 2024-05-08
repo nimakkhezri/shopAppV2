@@ -15,6 +15,7 @@ public :
     int get_total_sales(std::string start_date, std::string end_date);
     void print_sales_report (std::string start_date, std::string end_date);
     
+    std::vector<Order> get_orders();
 };
 
 #endif

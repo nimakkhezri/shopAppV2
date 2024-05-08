@@ -3,6 +3,7 @@
 #include <time.h>
 #include <iomanip>
 #include <fstream>
+#include <filesystem>
 #include "Product.h"
 #include "Order.h"
 #include "Customer.h"
@@ -10,6 +11,7 @@
 
 std::vector<Product> readProductsFromFile(const std::string& filename);
 void saveProductsToFile(const std::string& filename, const std::vector<Product>& products);
+void saveOrdersToFiles(const std::vector<Order>& orders);
 
 void display_products(const std::vector<Product>& products);
 void display_cart(const std::vector<Product>& products);
@@ -336,8 +338,8 @@ std::vector<Product> readProductsFromFile(const std::string& filename){
             products.push_back(Product(productName, std::stoi(productStock), std::stoi(productPrice)));
         }
         file.close();
-    }else{
-        std::cout << "\n\n\tError: Unable to open file";
+    } else {
+        std::cout << "\n\n\tError: Unable to open file " << filename << std::endl;
     }
 
     return products;
@@ -347,13 +349,27 @@ std::vector<Product> readProductsFromFile(const std::string& filename){
 void saveProductsToFile(const std::string& filename, const std::vector<Product>& products) { 
     std::ofstream file(filename, std::ios::out | std::ios::trunc); 
 
-  if (file.is_open()) { 
-    for (const Product& product : products) { 
-      file << product.name << "," << product.price << "," << product.stock << std::endl; 
-    } 
+    if (file.is_open()) { 
+        for (const Product& product : products) { 
+        file << product.name << "," << product.stock << "," << product.price << std::endl; 
+        } 
  
-    file.close(); 
-  } else { 
-    std::cout << "Error: Unable to open file " << filename << std::endl; 
-  } 
+        file.close(); 
+    } else { 
+        std::cout << "\n\n\tError: Unable to open file " << filename << std::endl;
+    } 
+}
+
+void saveOrdersToFiles(const std::vector<Order>& orders){
+    std::filesystem::remove_all("Data/Orders");
+
+    if (!std::filesystem::exists("Data/Orders")) {
+        std::filesystem::create_directories("Data/Orders");
+    }
+
+    for (int i = 0; i < orders.size(); i++){
+        const Order& order = orders[i];
+
+        std::string filename = "order" + std::to_string(i + 1) + ".dat";
+    }
 }

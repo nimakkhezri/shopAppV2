@@ -105,3 +105,7 @@ void SalesHistory::print_sales_report(std::string start_date, std::string end_da
     std::cout << "Total sales: " << total_sales << " Toman" << std::endl;
     std::cout << std::endl;
 }
+
+std::vector<Order> SalesHistory::get_orders(){
+    return orders;
+}
