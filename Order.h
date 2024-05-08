@@ -24,6 +24,7 @@ public:
     }
 
     void add_product (Product product, int quantity);
+    int get_offer_price();
     int get_total_price();
     void apply_discount(double discount_percent);
     Customer get_customer_info();

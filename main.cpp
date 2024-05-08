@@ -21,6 +21,7 @@ void edit_product(std::vector<Product>& products);
 void add_product(std::vector<Product>& products);
 bool has_product(std::string productName, const std::vector<Product>& products);
 Order create_new_order(std::vector<Product>& products);
+void showSalesHistory(SalesHistory);
 
 int main (){
     std::vector <Product> products = readProductsFromFile("Data/products.dat");
@@ -42,10 +43,12 @@ int main (){
 
         switch (choice) {
             case 1:
+                system("CLS");
                 add_product(products);
                 system("CLS");
                 break;
             case 2:
+                system("CLS");
                 int new_choice;
                 display_products(products);
                 std::cout << "\n\n\t*For editing products, please enter 1 \n";
@@ -58,14 +61,19 @@ int main (){
                 system("CLS");
                 break;
             case 3:
+                system("CLS");
                 sales_history.add_order(create_new_order(products));
                 system("CLS");
                 break;
             case 4:
+                system("CLS");
                 sales_history.display_orders();
                 system("CLS");
                 break;
             case 5:
+                system("CLS");
+                showSalesHistory(sales_history);
+                system("CLS");
                 break;
             default:
                 break;
@@ -169,6 +177,7 @@ Order create_new_order(std::vector <Product>& products){
 
     int choice;
     do{
+        system("CLS");
         display_cart(order_products);
         display_products(products);
         
@@ -218,10 +227,10 @@ Order create_new_order(std::vector <Product>& products){
         }
     }while(choice != 0 || order_products.empty());
 
-    int total_price = 0;
+    int no_offer_total_price = 0;
 
     for(Product product : order_products){
-        total_price += product.get_price() * product.get_stock();
+        no_offer_total_price += product.get_price() * product.get_stock();
     }
 
     double discount_percent; 
@@ -249,7 +258,7 @@ Order create_new_order(std::vector <Product>& products){
 
   Customer customer(first_name, last_name, phone_number/*, address*/);
 
-    Order order(order_products, discount_percent, total_price, customer, current_date);
+    Order order(order_products, discount_percent, no_offer_total_price, customer, current_date);
     std::cout << "\n\n\tDone!\n";
     std::cout << "\n\tYour Order has been added successfully!\n\n";
     system("Pause");
@@ -410,7 +419,7 @@ std::vector<Order> readOrdersFromFile(){
         } else {
             break;
         }
-        orders.push_back(Order(order_products, std::stod(discount) * 10, std::stod(total_price), customer, date));
+        orders.push_back(Order(order_products, std::stod(discount), std::stod(total_price), customer, date));
         i++;
     }
     return orders;
@@ -461,4 +470,40 @@ void saveOrdersToFiles(const std::vector<Order>& orders){
             std::cout << "\n\n\tError: Unable to open file " << products_filename << std::endl;
         }
     }
+}
+
+void showSalesHistory(SalesHistory sale_history){
+    int choice;
+    do {
+        std::cout << "\n\n\n\t                           ** SALES HISTORY TAB **" << '\n';
+        std::cout << "\n\n\t*Select your date range" << std::endl;
+        std::cout << "\n\t1. Last week" << std::endl;
+        std::cout << "\n\t2. Last month" << std::endl;
+        std::cout << "\n\t3. Last year" << std::endl;
+        std::cout << "\n\tChoose (0 for returning back): ";
+        std::cin >> choice;
+        std::cout << '\n';
+        if (choice > 3){
+            std::cout << "\n\n\t Please enter a valid number! \n";
+        }
+        
+        switch (choice)
+        {
+        case 1:
+            system("CLS");
+            sale_history.print_last_week();
+            system("Pause");
+            break;
+        case 2:
+            system("CLS");
+            sale_history.print_last_month();
+            system("Pause");
+            break;
+        case 3:
+            system("CLS");
+            sale_history.print_last_year();
+            system("Pause");
+            break;
+        }
+    } while (choice != 0);
 }

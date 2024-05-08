@@ -7,14 +7,18 @@ void Order::add_product (Product product, int quantity){
     }
 }
 
+int Order::get_offer_price(){
+    return offer_price;
+}
+
 int Order::get_total_price(){
     return total_price;
 }
 
 void Order::apply_discount(double discount_percent){
+    offer_price = total_price;
     if (discount_percent >= 0 && discount_percent <= 100){
-        discount = discount_percent / 100;
-        total_price *= (1 - discount);
+        offer_price *= (1 - (discount_percent / 100));
     }
 }
 
