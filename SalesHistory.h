@@ -16,6 +16,7 @@ public :
     void print_sales_report (std::string start_date, std::string end_date);
     
     std::vector<Order> get_orders();
+    void set_orders(std::vector<Order> saved_orders);
 };
 
 #endif

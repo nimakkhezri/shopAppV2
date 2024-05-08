@@ -12,6 +12,7 @@
 std::vector<Product> readProductsFromFile(const std::string& filename);
 void saveProductsToFile(const std::string& filename, const std::vector<Product>& products);
 void saveOrdersToFiles(const std::vector<Order>& orders);
+std::vector<Order> readOrdersFromFile();
 
 void display_products(const std::vector<Product>& products);
 void display_cart(const std::vector<Product>& products);
@@ -24,6 +25,7 @@ Order create_new_order(std::vector<Product>& products);
 int main (){
     std::vector <Product> products = readProductsFromFile("Data/products.dat");
     SalesHistory sales_history;
+    sales_history.set_orders(readOrdersFromFile());
 
     int choice;
     do {
@@ -71,6 +73,7 @@ int main (){
     }while (choice != 0);
 
     saveProductsToFile("Data/products.dat", products);
+    saveOrdersToFiles(sales_history.get_orders());
 }
 
 void display_products(const std::vector<Product>& products) {
@@ -346,6 +349,73 @@ std::vector<Product> readProductsFromFile(const std::string& filename){
 
 }
 
+std::vector<Order> readOrdersFromFile(){
+    std::vector<Order> orders;
+
+    if (!std::filesystem::exists("Data/Orders")) {
+        std::filesystem::create_directories("Data/Orders");
+    }
+
+    int i = 1;
+    while(true){
+        std::vector<Product> order_products;
+
+        std::string order_filename = "order" + std::to_string(i) + ".dat";
+        std::string order_filepath = "Data/Orders/" + order_filename;
+        std::string products_filename = "products" + std::to_string(i) + ".dat";
+        std::string products_filepath = "Data/Orders/" + products_filename;
+
+        std::ifstream orderfile (order_filepath);
+        std::ifstream productsfile (products_filepath);
+
+        if (!std::filesystem::exists(order_filepath)) {
+            break;
+        }
+        
+        std::string customer_firstname, customer_lastname, customer_phonenumber, discount, total_price, date;
+
+        if (orderfile.is_open()){
+            std::string line;
+            std::getline(orderfile, line);
+
+            std::stringstream customer_ss(line);
+            
+
+            std::getline(customer_ss, customer_firstname, ',');
+            std::getline(customer_ss, customer_lastname, ',');
+            std::getline(customer_ss, customer_phonenumber, ',');
+            std::getline(customer_ss, discount, ',');
+            std::getline(customer_ss, total_price, ',');
+            std::getline(customer_ss, date, ',');
+
+        } else {
+            break;
+        }
+
+        Customer customer(customer_firstname, customer_lastname, customer_phonenumber);
+
+        if (productsfile.is_open()){
+            std::string line;
+            while(std::getline(productsfile, line)){
+                std::stringstream ss(line);
+
+                std::string productName, productStock, productPrice;
+
+                std::getline(ss, productName, ',');
+                std::getline(ss, productStock, ',');
+                std::getline(ss, productPrice, ',');
+
+                order_products.push_back(Product(productName, std::stoi(productStock), std::stoi(productPrice)));
+            }
+        } else {
+            break;
+        }
+        orders.push_back(Order(order_products, std::stod(discount) * 10, std::stod(total_price), customer, date));
+        i++;
+    }
+    return orders;
+}
+
 void saveProductsToFile(const std::string& filename, const std::vector<Product>& products) { 
     std::ofstream file(filename, std::ios::out | std::ios::trunc); 
 
@@ -370,6 +440,25 @@ void saveOrdersToFiles(const std::vector<Order>& orders){
     for (int i = 0; i < orders.size(); i++){
         const Order& order = orders[i];
 
-        std::string filename = "order" + std::to_string(i + 1) + ".dat";
+        std::string order_filename = "order" + std::to_string(i + 1) + ".dat";
+        std::string order_filepath = "Data/Orders/" + order_filename;
+        std::string products_filename = "products" + std::to_string(i + 1) + ".dat";
+        std::string products_filepath = "Data/Orders/" + products_filename;
+
+        std::ofstream orderfile (order_filepath, std::ios::out);
+        if (orderfile.is_open()){
+            orderfile << order.customer.first_name << "," << order.customer.last_name << "," << order.customer.phone_number << "," << order.discount << "," << order.total_price << "," << order.date << std::endl;
+        }else { 
+            std::cout << "\n\n\tError: Unable to open file " << order_filename << std::endl;
+        } 
+
+        std::ofstream productsfile (products_filepath, std::ios::out);
+        if (productsfile.is_open()){
+            for (const Product& product : order.products){
+                    productsfile << product.name << "," << product.stock << "," << product.price << std::endl;
+                }
+        }else { 
+            std::cout << "\n\n\tError: Unable to open file " << products_filename << std::endl;
+        }
     }
 }

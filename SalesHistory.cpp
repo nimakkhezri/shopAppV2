@@ -109,3 +109,7 @@ void SalesHistory::print_sales_report(std::string start_date, std::string end_da
 std::vector<Order> SalesHistory::get_orders(){
     return orders;
 }
+
+void SalesHistory::set_orders(std::vector<Order> saved_orders){
+    this->orders = saved_orders;
+}
