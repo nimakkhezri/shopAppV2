@@ -22,6 +22,7 @@ void add_product(std::vector<Product>& products);
 bool has_product(std::string productName, const std::vector<Product>& products);
 Order create_new_order(std::vector<Product>& products);
 void showSalesHistory(SalesHistory);
+void deleteProduct(std::vector<Product>& products, int choice);
 
 int main (){
     std::vector <Product> products = readProductsFromFile("Data/products.dat");
@@ -117,7 +118,8 @@ void edit_product(std::vector<Product>& products) {
             std::cout << "\n\n\t*What do you want to do ?" << std::endl;
             std::cout << "\n\t1. Edit stock" << std::endl;
             std::cout << "\n\t2. Edit price" << std::endl;
-            std::cout << "\n\t3. Return" << std::endl;
+            std::cout << "\n\t3. Delete the product" << std::endl;
+            std::cout << "\n\t0. Return" << std::endl;
             std::cout << "\n\tChoose: ";
             std::cin >> choice;
             std::cout << '\n';
@@ -147,6 +149,7 @@ void edit_product(std::vector<Product>& products) {
             break;
             }
             case 3:
+                deleteProduct(products, product_index);
             break;
         }
         std::cout << "\n\n";
@@ -306,8 +309,11 @@ void edit_cart(std::vector <Product>& order_products, std::vector <Product>& pro
 
             do{
                 std::cout << "\n\n\t*You have chosen " << std::left << std::setw(20) << order_product.get_name() << " Quantity: " << std::setw(5) << order_product.get_stock() << '\n';
-                std::cout << "\n\n\tPlease enter a new quantity: ";
+                std::cout << "\n\n\tPlease enter a new quantity or enter 0 for delete this product: ";
                 std::cin >> new_quantity;
+                if (new_quantity == 0){
+                    deleteProduct(order_products, choice);
+                }
                 if(new_quantity < 0 || new_quantity > product_total_stock)
                     std::cout << "\n\n\tPlease enter a valid value! " << '\n';
             }while(new_quantity < 0 || new_quantity > product_total_stock);
@@ -421,6 +427,8 @@ std::vector<Order> readOrdersFromFile(){
         }
         orders.push_back(Order(order_products, std::stod(discount), std::stod(total_price), customer, date));
         i++;
+        productsfile.close();
+        orderfile.close();
     }
     return orders;
 }
@@ -469,6 +477,8 @@ void saveOrdersToFiles(const std::vector<Order>& orders){
         }else { 
             std::cout << "\n\n\tError: Unable to open file " << products_filename << std::endl;
         }
+        orderfile.close();
+        productsfile.close();
     }
 }
 
@@ -507,4 +517,17 @@ void showSalesHistory(SalesHistory sale_history){
             break;
         }
     } while (choice != 0);
+}
+
+void deleteProduct (std::vector<Product>& products, int choice){
+    std::cout << "\n\n\t*Are you sure to delete "<< products[choice - 1].get_name() << "? \n";
+    std::cout << "\n\tYour choice(y/n): ";
+
+    char ch_choice;
+    std::cin >> ch_choice;
+    if (ch_choice == 'y' || ch_choice == 'Y'){
+        products.erase(products.begin() + choice - 1);
+
+        std::cout << "\n\n\tDone! \n";
+    }
 }
